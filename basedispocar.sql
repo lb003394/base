@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mar 18 Décembre 2012 à 21:05
+-- Généré le: Mer 19 Décembre 2012 à 22:25
 -- Version du serveur: 5.5.16-log
 -- Version de PHP: 5.3.13
 
@@ -34,15 +34,17 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `ville` varchar(45) DEFAULT NULL,
   `tel` varchar(45) DEFAULT NULL,
   `nvehicules_id` int(11) NOT NULL,
+  `nego` tinyint(1) NOT NULL DEFAULT '0',
+  `note` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Contenu de la table `clients`
 --
 
-INSERT INTO `clients` (`id`, `nom`, `prenom`, `raisonsociale`, `ville`, `tel`, `nvehicules_id`) VALUES
-(2, 'Ali', 'Paul', '', 'Toulouse', '0618513006', 19);
+INSERT INTO `clients` (`id`, `nom`, `prenom`, `raisonsociale`, `ville`, `tel`, `nvehicules_id`, `nego`, `note`) VALUES
+(3, 'Ali', 'Paul', '', 'Toulouse', '0618513009', 26, 0, '');
 
 -- --------------------------------------------------------
 
@@ -58,8 +60,18 @@ CREATE TABLE IF NOT EXISTS `clientvos` (
   `ville` varchar(45) DEFAULT NULL,
   `tel` varchar(45) DEFAULT NULL,
   `ovehicules_id` int(11) NOT NULL,
+  `nego` tinyint(1) NOT NULL DEFAULT '0',
+  `note` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Contenu de la table `clientvos`
+--
+
+INSERT INTO `clientvos` (`id`, `nom`, `prenom`, `raisonsociale`, `ville`, `tel`, `ovehicules_id`, `nego`, `note`) VALUES
+(1, 'Dupond', 'Arni', '', 'Toulouse', '000000', 5, 0, ''),
+(2, 'Dupond', '', '', '', '', 6, 1, '');
 
 -- --------------------------------------------------------
 
@@ -148,19 +160,22 @@ CREATE TABLE IF NOT EXISTS `nvehicules` (
   `dir` varchar(255) NOT NULL,
   `mimetype` varchar(255) NOT NULL,
   `filesize` int(11) NOT NULL,
+  `envente` tinyint(1) NOT NULL DEFAULT '0',
+  `entransfert` tinyint(1) NOT NULL DEFAULT '0',
+  `vendu` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_nvehicules_clients1` (`parcs_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='véhicules neuf' AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='véhicules neuf' AUTO_INCREMENT=30 ;
 
 --
 -- Contenu de la table `nvehicules`
 --
 
-INSERT INTO `nvehicules` (`id`, `marque`, `model`, `carrosserie`, `puissance`, `couleur`, `finission`, `commentaire`, `filename`, `prix`, `boite`, `motorisation`, `parcs_id`, `dir`, `mimetype`, `filesize`) VALUES
-(19, 'Mercedes', 'Classe CLS', 'Break, SW', '', 'Jaune', '', '', '20121206102408_img_1.jpg', '15000€', '', 'Essence', 1, 'img\\lesimages\\nvehicules', 'image/jpeg', 10491),
-(20, 'Peugeot', '205', 'BreakSW', '', 'Grise', '', '', 'vehicule1.jpg', '4800€', '', 'Diésel', 2, 'img\\lesimages\\nvehicules', 'image/jpeg', 9040),
-(24, 'Porsche', '997 GT2 CLUBSPORT', 'Break, SW', '', 'Blanche', '', '', 'porsche.jpg', '152000€', 'Manuelle', 'Essence', 1, 'img\\lesimages\\nvehicules', 'image/jpeg', 92657),
-(25, 'Fiat', 'SPORT', 'Coupé', '5ch', 'Rouge', '', '', '19198_1.jpg', '8800€', '5ch', 'Electric', 1, 'img\\lesimages\\nvehicules', 'image/jpeg', 142630);
+INSERT INTO `nvehicules` (`id`, `marque`, `model`, `carrosserie`, `puissance`, `couleur`, `finission`, `commentaire`, `filename`, `prix`, `boite`, `motorisation`, `parcs_id`, `dir`, `mimetype`, `filesize`, `envente`, `entransfert`, `vendu`) VALUES
+(26, 'Mercedes', 'Classe CLS', 'Break, SW', '15ch', 'Jaune', '', '', '20121206102408_img_1.jpg', '15000€', '5ch', 'Essence', 1, 'img\\lesimages\\nvehicules', 'image/jpeg', 10491, 1, 1, 1),
+(27, 'Fiat', 'SPORT', 'Coupé', '15ch', 'Rouge', '', '', '19198_1.jpg', '8700€', '5ch', 'Essence', 2, 'img\\lesimages\\nvehicules', 'image/jpeg', 142630, 0, 0, 0),
+(28, 'Porsche', 'SPORT', 'Break, SW', '15ch', 'Blanche', '', '', 'porsche.jpg', '23000€', 'Manuelle', 'Essence', 1, 'img\\lesimages\\nvehicules', 'image/jpeg', 92657, 1, 0, 1),
+(29, 'Peugeot', '206', '', '', '', '', '', 'vehicule1.jpg', '', '', '', 2, 'img\\lesimages\\nvehicules', 'image/jpeg', 9040, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -186,16 +201,20 @@ CREATE TABLE IF NOT EXISTS `ovehicules` (
   `parcs_id` int(11) NOT NULL,
   `infoptions` longtext NOT NULL,
   `annee` varchar(255) NOT NULL,
+  `envente` tinyint(1) NOT NULL DEFAULT '0',
+  `entransfert` tinyint(1) NOT NULL DEFAULT '0',
+  `vendu` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_ovehicules_clients1` (`parcs_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='véhicules occasion' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='véhicules occasion' AUTO_INCREMENT=7 ;
 
 --
 -- Contenu de la table `ovehicules`
 --
 
-INSERT INTO `ovehicules` (`id`, `marque`, `model`, `carrosserie`, `puissance`, `couleur`, `finission`, `commentaire`, `filename`, `prix`, `boite`, `motorisation`, `kilometrage`, `circulation`, `parcs_id`, `infoptions`, `annee`) VALUES
-(2, 'Peugeot', '308 1.6 HDI 110 PREMIUM PACK 5P', 'Berline 4/5P', '110 ch. 6 cv.', 'Gris', '', '', '20121206102408_img_1.jpg', '5000€', 'Manuelle', 'Essence', '72 856 km', '2010', 1, '', '2008');
+INSERT INTO `ovehicules` (`id`, `marque`, `model`, `carrosserie`, `puissance`, `couleur`, `finission`, `commentaire`, `filename`, `prix`, `boite`, `motorisation`, `kilometrage`, `circulation`, `parcs_id`, `infoptions`, `annee`, `envente`, `entransfert`, `vendu`) VALUES
+(5, 'Porsche', 'BLOO', '', '5ch', 'Blanche', '', '', 'porsche.jpg', '120000€', '', 'Essence', '1798766 km', '2010', 1, '', '2008', 0, 0, 0),
+(6, 'Mercedes', 'BLOO', '', '', 'Jaune', '', '', '20121206102408_img_1.jpg', '120000€', '', 'Diesel', '9798766 km', '', 2, '', '2008', 1, 0, 1);
 
 -- --------------------------------------------------------
 
