@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `clientvos` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Contenu de la table `clientvos`
+-- Contenu la table `clientvos`
 --
 
 INSERT INTO `clientvos` (`id`, `nom`, `prenom`, `raisonsociale`, `ville`, `tel`, `ovehicules_id`, `nego`, `note`) VALUES
